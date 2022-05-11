@@ -24,3 +24,14 @@ plt.show()
 plt.plot([3,4],[-10,-20],color = "r")
 plt.show()
 ```
+
+## Changelog
+
+
+### 0.0.2
+
+Update example
+
+### 0.0.1
+
+Initial release
