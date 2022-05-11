@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "jupyter-capture-output"
+version = "0.0.1"
+description = "Capture output from JupyterLab"
+authors = ["kolibril13 <44469195+kolibril13@users.noreply.github.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+ipython = ">=7.0.0"
+ipykernel = ">=6.13.0"
+Pillow = ">=9.1.0"
+
+[tool.poetry.dev-dependencies]
+black = {extras = ["jupyter"], version = ">=22.3.0"}
+matplotlib = ">=3.5.1"
+scipy = ">=1.8.0"
+scikit-image = ">=0.19.2"
+pytest = ">=7.1.2"
+isort = ">=5.10.1"
+notebook = "^6.4.11"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
