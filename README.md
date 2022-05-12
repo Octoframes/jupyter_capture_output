@@ -2,7 +2,7 @@
 A cell magic that captures jupyter cell output
 
 
-# Example
+## Example
 
 ```py
 import jupyter_capture_output
