@@ -27,6 +27,9 @@ plt.show()
 
 ## Changelog
 
+### 0.0.3
+
+Setup automatic release action.
 
 ### 0.0.2
 
