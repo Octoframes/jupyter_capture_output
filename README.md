@@ -30,6 +30,12 @@ plt.plot([3,4],[-10,-20],color = "r")
 plt.show()
 ```
 
+## Wishlist
+
+* `%%capture_text`  -> will create a .txt file with text output
+* `%%capture_svg` -> will create a .svg file with svg vectorgraphic outout
+* `%%capture_video` -> will create a .mp4 file with the video output
+
 ## Changelog
 
 ### 0.0.3
