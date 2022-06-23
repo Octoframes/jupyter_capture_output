@@ -23,7 +23,7 @@ jobs:
         run: |
           mkdir -p content
           cp README.md content
-          cp jupyterlite_notebook.ipynb content
+          cp jupyterlite_capture_notebook.ipynb content
           jupyter lite build --contents ./content
       - name: Upload (dist)
         uses: actions/upload-artifact@v2
