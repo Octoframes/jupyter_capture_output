@@ -33,24 +33,20 @@ plt.show()
 ```
 
 ## Wishlist
-* JupyterLite version of this.
-```py
-from pathlib import Path
-
-path = Path.cwd() / "foo.txt"
-path.write_text("Hello World")
-```
-is not working yet, but might be soon: https://github.com/jupyterlite/jupyterlite/pull/655
 
 * `%%capture_text`  ->  to .txt file with text output
 * `%%capture_svg` ->  to .svg file with svg vectorgraphic outout
 * `%%capture_video` -> to .mp4 file with the video output
-* `%%capture_numpy_array` -> to .np file with array in it
-* `%%capture_csv` -> tc .csv with datapoints in it
-* `%%capture_dataframe` -> to .pkl file
+* `%%capture_numpy_array` -> to .np file with array 
+* `%%capture_csv` -> to .csv with datapoints 
+* `%%capture_gif` -> to .gif with animation
+* `%%capture_auto`-> automatically detects what output there is to capture
 
 ## Changelog
 
+### 0.0.5
+
+Add JupyterLiteDemo
 ### 0.0.4
 
 Add Text and Video capture cell magic
