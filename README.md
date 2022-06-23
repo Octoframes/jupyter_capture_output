@@ -38,6 +38,11 @@ plt.show()
 
 ## Changelog
 
+### 0.0.4
+
+Add Text and Video capture cell magic
+update example
+
 ### 0.0.3
 
 Setup automatic release action.

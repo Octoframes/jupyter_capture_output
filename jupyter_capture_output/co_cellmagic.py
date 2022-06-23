@@ -6,6 +6,7 @@ from IPython.core.magic import Magics, cell_magic, magics_class
 from IPython.display import display
 from IPython.utils.capture import capture_output
 from PIL import Image
+from pathlib import Path
 
 
 @magics_class
@@ -52,3 +53,26 @@ class CaptureMagic(Magics):
                     img.save(path, "JPEG", optimize=True, quality=int(args.compression))
                 else:
                     img.save(path, "png")
+
+    @magic_arguments.magic_arguments()
+    @magic_arguments.argument(
+        "--path",
+        "-p",
+        default=None,
+        help=(
+            "The path where the text will be saved to"
+        ),
+    )
+    @cell_magic
+    def capture_text(self, line, cell):
+        args = magic_arguments.parse_argstring(CaptureMagic.capture_text, line)
+        path = args.path.strip('"')
+        with capture_output(stdout=True, stderr=False, display=False) as result:
+            self.shell.run_cell(cell)
+            message = result.stdout
+
+        if len(message) == 0:
+            raise ValueError("No standard output (stdout) found!")
+        print(message)
+        dest = Path(path)
+        dest.write_text(message)
