@@ -32,9 +32,12 @@ plt.show()
 
 ## Wishlist
 
-* `%%capture_text`  -> will create a .txt file with text output
-* `%%capture_svg` -> will create a .svg file with svg vectorgraphic outout
-* `%%capture_video` -> will create a .mp4 file with the video output
+* `%%capture_text`  ->  to .txt file with text output
+* `%%capture_svg` ->  to .svg file with svg vectorgraphic outout
+* `%%capture_video` -> to .mp4 file with the video output
+* `%%capture_numpy_array` -> to .np file with array in it
+* `%%capture_csv` -> tc .csv with datapoints in it
+* `%%capture_dataframe` -> to .pkl file
 
 ## Changelog
 
