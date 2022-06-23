@@ -1,7 +1,7 @@
 Pillow
 numpy
 matplotlib
-scikit-image
+# scikit-image
 
 #------ JupyerLite install -------
 jupyterlite==0.1.0b9
