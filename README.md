@@ -2,7 +2,7 @@
 A cell magic that captures jupyter cell output
 
 ## Install
-Requires Python >=3.8
+Requires Python >=3.7
 ```py
 pip install jupyter_capture_output
 ```
