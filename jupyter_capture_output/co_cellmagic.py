@@ -7,11 +7,12 @@ from IPython.display import display
 from IPython.utils.capture import capture_output
 from PIL import Image
 from pathlib import Path
+from pprint import pprint # for debugging
 
 
 @magics_class
 class CaptureMagic(Magics):
-    @magic_arguments.magic_arguments()
+    @magic_arguments.magic_arguments() ################### IMAGE
     @magic_arguments.argument(
         "--path",
         "-p",
@@ -54,7 +55,7 @@ class CaptureMagic(Magics):
                 else:
                     img.save(path, "png")
 
-    @magic_arguments.magic_arguments()
+    @magic_arguments.magic_arguments() ################### TEXT
     @magic_arguments.argument(
         "--path",
         "-p",
@@ -76,3 +77,42 @@ class CaptureMagic(Magics):
         print(message)
         dest = Path(path)
         dest.write_text(message)
+
+
+    @magic_arguments.magic_arguments() ################### Video
+    @magic_arguments.argument(
+        "--path",
+        "-p",
+        default=None,
+        help=(
+            "The path where the video will be saved to. When there is more then one video, multiple paths have to be defined"
+        ),
+    )
+    @cell_magic
+    def capture_video(self, line, cell):
+        args = magic_arguments.parse_argstring(CaptureMagic.capture_video, line)
+        paths = args.path.strip('"').split(" ")
+        with capture_output(stdout=False, stderr=False, display=True) as result:
+            self.shell.run_cell(cell)
+        for output in result.outputs:
+            display(output) # only disabled for debugging
+            global data # for debugging 
+            data = output.data
+
+            pprint(data) # for debugging 
+
+            print("#####")
+            if "text/html" in data: # this is not nice, is there any better way to access IPython.core.display.Video object ?
+                path = paths.pop(0)
+                if not path:
+                    raise ValueError("Too few paths given!")
+                video_object = data["text/html"]
+                split_string = video_object.split('"')
+                video_url = split_string[1]
+                print(video_url) # for debugging 
+                print(path) # for debugging 
+
+                dest = Path(path)
+                src = Path(video_url)
+                dest.write_bytes(src.read_bytes())
+                

@@ -31,6 +31,14 @@ plt.show()
 ```
 
 ## Wishlist
+* JupyterLite version of this.
+```py
+from pathlib import Path
+
+path = Path.cwd() / "foo.txt"
+path.write_text("Hello World")
+```
+is not working yet, but might be soon: https://github.com/jupyterlite/jupyterlite/pull/655
 
 * `%%capture_text`  ->  to .txt file with text output
 * `%%capture_svg` ->  to .svg file with svg vectorgraphic outout
