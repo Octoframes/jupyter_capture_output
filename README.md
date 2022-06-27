@@ -13,6 +13,14 @@ pip install jupyter_capture_output
 
 ```py
 import jupyter_capture_output
+```
+
+```py 
+%%capture_text --path "foo.txt"
+print("Hello World")
+```
+
+```py
 import matplotlib.pyplot as plt
 ```
 
@@ -32,11 +40,16 @@ plt.plot([3,4],[-10,-20],color = "r")
 plt.show()
 ```
 
+
+
+Implemented
+* `%%capture_text`  ->  to .txt file with text output
+* `%%capture_img` -> to .png or .jpg with image output
+* `%%capture_video` (needs rework) -> to .mp4 file with the video output
+
 ## Wishlist
 
-* `%%capture_text`  ->  to .txt file with text output
 * `%%capture_svg` ->  to .svg file with svg vectorgraphic outout
-* `%%capture_video` -> to .mp4 file with the video output
 * `%%capture_numpy_array` -> to .np file with array 
 * `%%capture_csv` -> to .csv with datapoints 
 * `%%capture_gif` -> to .gif with animation
@@ -44,8 +57,10 @@ plt.show()
 
 ## Changelog
 
+
 ### 0.0.5
 
+Remove debugging code
 Add JupyterLiteDemo
 ### 0.0.4
 

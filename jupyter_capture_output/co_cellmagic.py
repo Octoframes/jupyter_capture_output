@@ -99,9 +99,8 @@ class CaptureMagic(Magics):
             global data # for debugging 
             data = output.data
 
-            pprint(data) # for debugging 
+            # pprint(data) # for debugging 
 
-            print("#####")
             if "text/html" in data: # this is not nice, is there any better way to access IPython.core.display.Video object ?
                 path = paths.pop(0)
                 if not path:
@@ -109,8 +108,8 @@ class CaptureMagic(Magics):
                 video_object = data["text/html"]
                 split_string = video_object.split('"')
                 video_url = split_string[1]
-                print(video_url) # for debugging 
-                print(path) # for debugging 
+                # print(video_url) # for debugging 
+                # print(path) # for debugging 
 
                 dest = Path(path)
                 src = Path(video_url)
