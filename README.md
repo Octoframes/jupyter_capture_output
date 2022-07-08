@@ -59,7 +59,8 @@ Implemented
 
 ### 0.0.6
 
-better regex in capture video.
+better regex in capture video
+change example images to dogs
 
 ### 0.0.5
 
