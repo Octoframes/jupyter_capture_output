@@ -22,9 +22,9 @@ jobs:
       - name: Build the JupyterLite site
         run: |
           mkdir -p content
+          mkdir -p content/assets
           cp README.md content
-          cp cap_example_notebook.ipynb content
-          cp assets/cute_dog.jpg content
+          cp assets/cute_dog.jpg content/assets
           cp jupyterlite_capture_notebook.ipynb content
           jupyter lite build --contents ./content
       - name: Upload (dist)
