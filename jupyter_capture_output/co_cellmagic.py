@@ -96,10 +96,8 @@ class CaptureMagic(Magics):
         with capture_output(stdout=False, stderr=False, display=True) as result:
             self.shell.run_cell(cell)
         for output in result.outputs:
-            display(output) # only disabled for debugging
-            global data # for debugging 
+            display(output)
             data = output.data
-
             # pprint(data) # for debugging 
 
             if "text/html" in data: # this is not nice, is there any better way to access IPython.core.display.Video object ?
@@ -109,9 +107,6 @@ class CaptureMagic(Magics):
                 video_object_html_string = data["text/html"]
                 # find path in e.g. '<video src="assets/DopplerTest.mp4" controls  width="300" >
                 video_dir = re.findall(r'video src="(.+?)"', video_object_html_string)[0] 
-                # print(video_dir) # for debugging 
-                # print(path) # for debugging 
-
                 dest = Path(path)
                 src = Path(video_dir)
                 dest.write_bytes(src.read_bytes())

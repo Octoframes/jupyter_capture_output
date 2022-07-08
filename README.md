@@ -45,7 +45,7 @@ plt.show()
 Implemented
 * `%%capture_text`  ->  to .txt file with text output
 * `%%capture_img` -> to .png or .jpg with image output
-* `%%capture_video` (needs rework) -> to .mp4 file with the video output
+* `%%capture_video` -> to .mp4 file with the video output
 
 ## Wishlist
 
@@ -57,6 +57,9 @@ Implemented
 
 ## Changelog
 
+### 0.0.6
+
+better regex in capture video.
 
 ### 0.0.5
 
