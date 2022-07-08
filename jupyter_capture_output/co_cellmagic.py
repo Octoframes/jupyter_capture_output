@@ -8,6 +8,7 @@ from IPython.utils.capture import capture_output
 from PIL import Image
 from pathlib import Path
 from pprint import pprint # for debugging
+import re
 
 
 @magics_class
@@ -105,13 +106,13 @@ class CaptureMagic(Magics):
                 path = paths.pop(0)
                 if not path:
                     raise ValueError("Too few paths given!")
-                video_object = data["text/html"]
-                split_string = video_object.split('"')
-                video_url = split_string[1]
-                # print(video_url) # for debugging 
+                video_object_html_string = data["text/html"]
+                # find path in e.g. '<video src="assets/DopplerTest.mp4" controls  width="300" >
+                video_dir = re.findall(r'video src="(.+?)"', video_object_html_string)[0] 
+                # print(video_dir) # for debugging 
                 # print(path) # for debugging 
 
                 dest = Path(path)
-                src = Path(video_url)
+                src = Path(video_dir)
                 dest.write_bytes(src.read_bytes())
                 
