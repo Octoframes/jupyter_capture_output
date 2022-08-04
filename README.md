@@ -57,6 +57,12 @@ Implemented
 
 ## Changelog
 
+### 0.0.7 (work in progress)
+
+Add some experimental magic:
+* * `experimental_capture_video_first_last` captures video and extracts first and last frame from it. Useful for post-processing of videos in other video editors. Needs ffmpeg installed
+
+* `experimental_video_thumbnail` extracts video from the Jupyter cell output, and replaces it with an image thumbnail of the video -> useful for Version control. Needs matplotlib and ffmpeg installed
 ### 0.0.6
 
 better regex in capture video
