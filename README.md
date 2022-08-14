@@ -1,6 +1,7 @@
 # jupyter-caputure-output
 A cell magic that captures jupyter cell output
 
+
 [![JupyterLight](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://kolibril13.github.io/jupyter-capture-output/)  
 
 ## Install
@@ -9,7 +10,11 @@ Requires Python >=3.8
 pip install jupyter_capture_output
 ```
 
+
 ## Example
+
+https://user-images.githubusercontent.com/44469195/184531492-6bc34ed9-3640-447b-b09e-767d01ecf3da.mov
+
 
 ```py
 import jupyter_capture_output
