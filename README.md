@@ -2,7 +2,7 @@
 A cell magic that captures jupyter cell output
 
 
-[![JupyterLight](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://kolibril13.github.io/jupyter-capture-output/)  
+[![JupyterLight](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://octoframes.github.io/jupyter_capture_output/)  
 
 ## Install
 Requires Python >=3.8
