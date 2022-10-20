@@ -62,9 +62,13 @@ Implemented
 
 ## Changelog
 
-### 0.0.7 (work in progress)
+### 0.0.8 (work in progress)
 
-Add some experimental magic:
+### 0.0.7 
+
+* Add relative path support and automatically create paths if they don't exist yet.
+
+Add some experimental magic, but this will likely be removed in future versions:
 * * `experimental_capture_video_first_last` captures video and extracts first and last frame from it. Useful for post-processing of videos in other video editors. Needs ffmpeg installed
 
 * `experimental_video_thumbnail` extracts video from the Jupyter cell output, and replaces it with an image thumbnail of the video -> useful for Version control. Needs matplotlib and ffmpeg installed

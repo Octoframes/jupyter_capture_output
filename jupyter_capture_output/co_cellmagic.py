@@ -15,32 +15,40 @@ def path_preprocessing(path):
     # print(type(path))  # for debugging
     path_pathlib = Path(path)
     if not path_pathlib.parent.exists():
-        path_pathlib.parent.mkdir(exist_ok=False , parents=True)
+        path_pathlib.parent.mkdir(exist_ok=False, parents=True)
         print(f"Note: The {path_pathlib.parent} directory was successfully created.")
-    print(f"Output is saved at {path_pathlib}") # TODO: Call this later maybe?
+
+    if not path_pathlib.exists():
+        print(f"Output saved by creating file at {path_pathlib}.")
+        # TODO: Call this later maybe?
+
+    if path_pathlib.exists():
+        print(f"Output saved by overwring previous file at {path_pathlib}.")
+        # TODO: Call this later maybe?
+
     return path_pathlib
+
+
 @magics_class
 class CaptureMagic(Magics):
-    
-    @magic_arguments.magic_arguments() ################### TEXT
+    @magic_arguments.magic_arguments()  ################### TEXT
     @magic_arguments.argument(
         "--path",
         "-p",
         default=None,
-        help=(
-            "The path where the text will be saved to"
-        ),
+        help=("The path where the text will be saved to"),
     )
     @cell_magic
     def capture_text(self, line, cell):
         args = magic_arguments.parse_argstring(CaptureMagic.capture_text, line)
         paths_string = args.path.strip('"').split(" ")
-        paths_pathlib = [] 
-        # paths_string has only one element for capture text, so this would not be necessary here.
-        # It's just for convenicene, as the other capture functions have the same loop. 
-        for path_str in paths_string: 
+        paths_pathlib = []
+        for path_str in paths_string:
             path_pathlib = path_preprocessing(path_str)
             paths_pathlib.append(path_pathlib)
+
+        # TODO: for capture_text, paths_string has only one element, so this would not be necessary here.
+        # It's just for convenicene, as the other capture functions are implemented with the same loop.
 
         with capture_output(stdout=True, stderr=False, display=False) as result:
             self.shell.run_cell(cell)
@@ -52,8 +60,7 @@ class CaptureMagic(Magics):
         dest = paths_pathlib[0]
         dest.write_text(message)
 
-
-    @magic_arguments.magic_arguments() ################### IMAGE
+    @magic_arguments.magic_arguments()  ################### IMAGE
     @magic_arguments.argument(
         "--path",
         "-p",
@@ -73,14 +80,20 @@ class CaptureMagic(Magics):
     @cell_magic
     def capture_img(self, line, cell):
         args = magic_arguments.parse_argstring(CaptureMagic.capture_img, line)
-        paths = args.path.strip('"').split(" ")
+
+        paths_string = args.path.strip('"').split(" ")
+        paths_pathlib = []
+        for path_str in paths_string:
+            path_pathlib = path_preprocessing(path_str)
+            paths_pathlib.append(path_pathlib)
+
         with capture_output(stdout=False, stderr=False, display=True) as result:
             self.shell.run_cell(cell)
         for output in result.outputs:
             display(output)
             data = output.data
             if "image/png" in data:
-                path = paths.pop(0)
+                path = paths_pathlib.pop(0)
                 if not path:
                     raise ValueError("Too few paths given!")
                 png_bytes = data["image/png"]
@@ -96,8 +109,7 @@ class CaptureMagic(Magics):
                 else:
                     img.save(path, "png")
 
-
-    @magic_arguments.magic_arguments() ################### Video
+    @magic_arguments.magic_arguments()  ################### Video
     @magic_arguments.argument(
         "--path",
         "-p",
@@ -109,29 +121,38 @@ class CaptureMagic(Magics):
     @cell_magic
     def capture_video(self, line, cell):
         args = magic_arguments.parse_argstring(CaptureMagic.capture_video, line)
-        paths = args.path.strip('"').split(" ")
+
+        paths_string = args.path.strip('"').split(" ") # TODO: Maybe also with path_preprocessing ?
+        paths_pathlib = []
+        for path_str in paths_string:
+            path_pathlib = path_preprocessing(path_str)
+            paths_pathlib.append(path_pathlib)
+
         with capture_output(stdout=False, stderr=False, display=True) as result:
             self.shell.run_cell(cell)
         for output in result.outputs:
             display(output)
             data = output.data
-            # pprint(data) # for debugging 
+            # pprint(data) # for debugging
 
-            if "text/html" in data: # this is not nice, is there any better way to access IPython.core.display.Video object ?
-                path = paths.pop(0)
+            if (
+                "text/html" in data
+            ):  # this is not nice, is there any better way to access IPython.core.display.Video object ?
+                path = paths_pathlib.pop(0)
                 if not path:
                     raise ValueError("Too few paths given!")
                 video_object_html_string = data["text/html"]
                 # find path in e.g. '<video src="assets/DopplerTest.mp4" controls  width="300" >
-                video_dir = re.findall(r'video src="(.+?)"', video_object_html_string)[0] 
+                video_dir = re.findall(r'video src="(.+?)"', video_object_html_string)[
+                    0
+                ]
                 dest = Path(path)
                 src = Path(video_dir)
                 dest.write_bytes(src.read_bytes())
 
+    ### The rest of this script is still very experimental and might be removed in future.
 
-    ### The rest of this script is still very experimental and might be removed in future.         
-
-    @magic_arguments.magic_arguments() ################### Video experiment
+    @magic_arguments.magic_arguments()  ################### Video experiment
     @magic_arguments.argument(
         "--path",
         "-p",
@@ -142,38 +163,49 @@ class CaptureMagic(Magics):
     )
     @cell_magic
     def experimental_capture_video_first_last(self, line, cell):
-        args = magic_arguments.parse_argstring(CaptureMagic.experimental_capture_video_first_last, line)
-        paths = args.path.strip('"').split(" ")
+        args = magic_arguments.parse_argstring(
+            CaptureMagic.experimental_capture_video_first_last, line
+        )
+        paths = args.path.strip('"').split(" ") # TODO: Maybe also with path_preprocessing ?
         with capture_output(stdout=False, stderr=False, display=True) as result:
             self.shell.run_cell(cell)
         for output in result.outputs:
             display(output)
             data = output.data
-            # pprint(data) # for debugging 
+            # pprint(data) # for debugging
 
-            if "text/html" in data: # this is not nice, is there any better way to access IPython.core.display.Video object ?
+            if "text/html" in data:
                 path = paths.pop(0)
                 if not path:
                     raise ValueError("Too few paths given!")
                 video_object_html_string = data["text/html"]
                 # find path in e.g. '<video src="assets/DopplerTest.mp4" controls  width="300" >
-                video_dir = re.findall(r'video src="(.+?)"', video_object_html_string)[0] 
+                video_dir = re.findall(r'video src="(.+?)"', video_object_html_string)[
+                    0
+                ]
                 dest = Path(path)
                 src = Path(video_dir)
                 dest.write_bytes(src.read_bytes())
-                
+
                 import os
+
                 input = str(dest)
                 output = str(input)
-                output = output[:-4] # delete the ending
+                output = output[:-4]  # delete the ending
                 print(output)
                 command = f"ffmpeg -i {input} -vframes 1 {output}_start.png"
-                os.system(f'echo 3 | {command} >/dev/null 2>&1') # makes sure to print output not into cell output
+                os.system(
+                    f"echo 3 | {command} >/dev/null 2>&1"
+                )  # makes sure to print output not into cell output
 
-                command = f"ffmpeg  -sseof -3 -i {input} -update 1 -q:v 1 {output}_end.png"
-                os.system(f'echo 3 | {command} >/dev/null 2>&1') # makes sure to print output not into cell output
+                command = (
+                    f"ffmpeg  -sseof -3 -i {input} -update 1 -q:v 1 {output}_end.png"
+                )
+                os.system(
+                    f"echo 3 | {command} >/dev/null 2>&1"
+                )  # makes sure to print output not into cell output
 
-    @magic_arguments.magic_arguments() ################### Video experiment
+    @magic_arguments.magic_arguments()  ################### Video experiment
     @magic_arguments.argument(
         "--path",
         "-p",
@@ -184,47 +216,57 @@ class CaptureMagic(Magics):
     )
     @cell_magic
     def experimental_video_thumbnail(self, line, cell):
-        args = magic_arguments.parse_argstring(CaptureMagic.experimental_video_thumbnail, line)
+        args = magic_arguments.parse_argstring(
+            CaptureMagic.experimental_video_thumbnail, line
+        )
         paths = args.path.strip('"').split(" ")
         with capture_output(stdout=False, stderr=False, display=True) as result:
             self.shell.run_cell(cell)
         for output in result.outputs:
-           # display(output)
+            # display(output)
             data = output.data
-            # pprint(data) # for debugging 
+            # pprint(data) # for debugging
 
-            if "text/html" in data: # this is not nice, is there any better way to access IPython.core.display.Video object ?
+            if "text/html" in data:
                 path = paths.pop(0)
                 if not path:
                     raise ValueError("Too few paths given!")
                 video_object_html_string = data["text/html"]
                 # find path in e.g. '<video src="assets/DopplerTest.mp4" controls  width="300" >
-                video_dir = re.findall(r'video src="(.+?)"', video_object_html_string)[0] 
+                video_dir = re.findall(r'video src="(.+?)"', video_object_html_string)[
+                    0
+                ]
                 dest = Path(path)
                 src = Path(video_dir)
                 dest.write_bytes(src.read_bytes())
-                
+
                 import os
+
                 input = str(dest)
                 output = str(input)
-                output = output[:-4] # delete the ending
+                output = output[:-4]  # delete the ending
                 command = f"ffmpeg -i {input} -vframes 1 {output}_start.png"
-                os.system(f'echo 3 | {command} >/dev/null 2>&1') # makes sure to print output not into cell output
+                os.system(
+                    f"echo 3 | {command} >/dev/null 2>&1"
+                )  # makes sure to print output not into cell output
 
-                command = f"ffmpeg  -sseof -3 -i {input} -update 1 -q:v 1 {output}_end.png"
-                os.system(f'echo 3 | {command} >/dev/null 2>&1') # makes sure to print output not into cell output
-
+                command = (
+                    f"ffmpeg  -sseof -3 -i {input} -update 1 -q:v 1 {output}_end.png"
+                )
+                os.system(
+                    f"echo 3 | {command} >/dev/null 2>&1"
+                )  # makes sure to print output not into cell output
 
                 import matplotlib.pyplot as plt
-                fig, (ax1, ax2) = plt.subplots(1,2)
+
+                fig, (ax1, ax2) = plt.subplots(1, 2)
 
                 im1 = plt.imread(f"{output}_start.png")
                 ax1.imshow(im1)
                 ax1.axis("off")
-                ax1.set_title('First Frame')
-
+                ax1.set_title("First Frame")
 
                 im2 = plt.imread(f"{output}_end.png")
                 ax2.imshow(im2)
                 ax2.axis("off")
-                ax2.set_title('Last Frame')
+                ax2.set_title("Last Frame")
