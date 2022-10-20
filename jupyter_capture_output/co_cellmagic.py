@@ -11,8 +11,48 @@ from pprint import pprint # for debugging
 import re
 
 
+def path_preprocessing(path):
+    # print(type(path))  # for debugging
+    path_pathlib = Path(path)
+    if not path_pathlib.parent.exists():
+        path_pathlib.parent.mkdir(exist_ok=False , parents=True)
+        print(f"Note: The {path_pathlib.parent} directory was successfully created.")
+    print(f"Output is saved at {path_pathlib}") # TODO: Call this later maybe?
+    return path_pathlib
 @magics_class
 class CaptureMagic(Magics):
+    
+    @magic_arguments.magic_arguments() ################### TEXT
+    @magic_arguments.argument(
+        "--path",
+        "-p",
+        default=None,
+        help=(
+            "The path where the text will be saved to"
+        ),
+    )
+    @cell_magic
+    def capture_text(self, line, cell):
+        args = magic_arguments.parse_argstring(CaptureMagic.capture_text, line)
+        paths_string = args.path.strip('"').split(" ")
+        paths_pathlib = [] 
+        # paths_string has only one element for capture text, so this would not be necessary here.
+        # It's just for convenicene, as the other capture functions have the same loop. 
+        for path_str in paths_string: 
+            path_pathlib = path_preprocessing(path_str)
+            paths_pathlib.append(path_pathlib)
+
+        with capture_output(stdout=True, stderr=False, display=False) as result:
+            self.shell.run_cell(cell)
+            message = result.stdout
+
+        if len(message) == 0:
+            raise ValueError("No standard output (stdout) found!")
+        print(message)
+        dest = paths_pathlib[0]
+        dest.write_text(message)
+
+
     @magic_arguments.magic_arguments() ################### IMAGE
     @magic_arguments.argument(
         "--path",
@@ -56,29 +96,6 @@ class CaptureMagic(Magics):
                 else:
                     img.save(path, "png")
 
-    @magic_arguments.magic_arguments() ################### TEXT
-    @magic_arguments.argument(
-        "--path",
-        "-p",
-        default=None,
-        help=(
-            "The path where the text will be saved to"
-        ),
-    )
-    @cell_magic
-    def capture_text(self, line, cell):
-        args = magic_arguments.parse_argstring(CaptureMagic.capture_text, line)
-        path = args.path.strip('"')
-        with capture_output(stdout=True, stderr=False, display=False) as result:
-            self.shell.run_cell(cell)
-            message = result.stdout
-
-        if len(message) == 0:
-            raise ValueError("No standard output (stdout) found!")
-        print(message)
-        dest = Path(path)
-        dest.write_text(message)
-
 
     @magic_arguments.magic_arguments() ################### Video
     @magic_arguments.argument(
@@ -111,7 +128,8 @@ class CaptureMagic(Magics):
                 src = Path(video_dir)
                 dest.write_bytes(src.read_bytes())
 
-        
+
+    ### The rest of this script is still very experimental and might be removed in future.         
 
     @magic_arguments.magic_arguments() ################### Video experiment
     @magic_arguments.argument(

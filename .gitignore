@@ -165,5 +165,5 @@ cython_debug/
 # For poetry
 *.lock
 
-capture_env/
+capture_out_env/
 ideas/
