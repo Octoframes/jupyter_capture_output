@@ -49,6 +49,7 @@ plt.show()
 
 Implemented
 * `%%capture_text`  ->  to .txt file with text output
+* `%%capture_code`  ->  to .py file with cell content
 * `%%capture_img` -> to .png or .jpg with image output
 * `%%capture_video` -> to .mp4 file with the video output
 
