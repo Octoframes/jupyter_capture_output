@@ -13,8 +13,7 @@ pip install jupyter_capture_output
 
 ## Example
 
-https://user-images.githubusercontent.com/44469195/184531492-6bc34ed9-3640-447b-b09e-767d01ecf3da.mov
-
+https://user-images.githubusercontent.com/44469195/199723257-ee428f53-d576-47be-93b9-d6ab98c46d8e.mov
 
 ```py
 import jupyter_capture_output
