@@ -53,13 +53,6 @@ Implemented
 * `%%capture_img` -> to .png or .jpg with image output
 * `%%capture_video` -> to .mp4 file with the video output
 
-## Wishlist
-
-* `%%capture_svg` ->  to .svg file with svg vectorgraphic outout
-* `%%capture_numpy_array` -> to .np file with array 
-* `%%capture_csv` -> to .csv with datapoints 
-* `%%capture_gif` -> to .gif with animation
-* `%%capture_auto`-> automatically detects what output there is to capture
 
 ## Changelog
 
