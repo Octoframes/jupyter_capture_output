@@ -53,7 +53,17 @@ Implemented
 * `%%capture_img` -> to .png or .jpg with image output
 * `%%capture_video` -> to .mp4 file with the video output
 
+## Use cases
 
+* matplotlib, scipy, PIL , cv2, manim etc. have their own APIs to save images. With this package, one just have to learn one line of code and can use it to save all kind of image outputs made by different packages.
+
+* When tweaking plots, one can use this cell magic to track the process, so to say a visual version control system.
+
+* In context of Science, one can generate log files of experiments with this package. As the cell magic is always on the top of the cell, it's easy to see in which cells log files are generated and in which not.
+
+* This can be used to create sheet cheats, e.g. this [math-functions-cheat-sheet](https://kolibril13.github.io/plywood-gallery-functions/) website was generated from a jupyter notebook using a derivative of this capture package.
+
+* This package will also auto-generate the folder-tree of subdirectories for you.
 ## Changelog
 
 ### 0.0.8 
