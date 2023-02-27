@@ -65,6 +65,10 @@ Implemented
 * This package will also auto-generate the folder-tree of subdirectories for you.
 ## Changelog
 
+
+### 0.0.9
+
+* support python 3.11
 ### 0.0.8 
 *  Add `capture_code` magic. Because this is not cell output but cell content, it might be worth to think about renaming this project from `capture-output` to only `capture` or even `capture-content`.
 * `remove experimental_capture_video_first_last` and `experimental_video_thumbnail` again. This package is not the right place for that.
