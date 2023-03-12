@@ -11,6 +11,8 @@ python = ">=3.8,<3.14"
 ipython = ">=6.0.0"
 ipykernel = ">=5.0.0"
 Pillow = ">=9.1.0"
+setuptools = ">=60.0.0"
+
 
 [tool.poetry.dev-dependencies]
 black = {extras = ["jupyter"], version = ">=22.3.0"}
@@ -20,6 +22,7 @@ scikit-image = ">=0.19.2"
 pytest = ">=7.1.2"
 isort = ">=5.10.1"
 notebook = ">6.4.11"
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
