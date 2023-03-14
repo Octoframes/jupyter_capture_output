@@ -1,8 +1,8 @@
 from .co_cellmagic import CaptureMagic
 from IPython import get_ipython  # register cell magic
-import pkg_resources
+import importlib.metadata
 
-__version__: str = pkg_resources.get_distribution(__name__).version
+__version__: str = importlib.metadata.version(__name__)
 
 print(f"Jupyter Capture Output v{__version__}")
 
