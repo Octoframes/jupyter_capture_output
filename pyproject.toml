@@ -11,8 +11,6 @@ python = ">=3.8,<3.14"
 ipython = ">=6.0.0"
 ipykernel = ">=5.0.0"
 Pillow = ">=9.1.0"
-setuptools = ">=60.0.0"
-
 
 [tool.poetry.dev-dependencies]
 black = {extras = ["jupyter"], version = ">=22.3.0"}
