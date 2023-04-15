@@ -65,7 +65,13 @@ Implemented
 * This package will also auto-generate the folder-tree of subdirectories for you.
 ## Changelog
 
+### 0.0.11
 
+* add support for embedded videos.
+
+### 0.0.10
+
+* use importlib.metadata
 ### 0.0.9
 
 * support python 3.11
