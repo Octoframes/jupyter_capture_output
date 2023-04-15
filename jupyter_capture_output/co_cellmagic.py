@@ -168,50 +168,32 @@ class CaptureMagic(Magics):
             data = output.data
             # pprint(data) # for debugging
 
-            if (
-                "text/html" in data
-            ): 
+            if "text/html" in data:
                 path = paths_pathlib.pop(0)
                 if not path:
                     raise ValueError("Too few paths given!")
                 video_object_html_string = data["text/html"]
-                # find path in e.g. '<video src="assets/DopplerTest.mp4" controls  width="300" >
-                video_dir = re.findall(r'video src="(.+?)"', video_object_html_string)[
-                    0
-                ]
-                dest = Path(path)
-                src = Path(video_dir)
-                dest.write_bytes(src.read_bytes())
 
+                # Extract video source filename
+                pattern = re.compile(r'video src="(.+?)"')
+                match = pattern.search(video_object_html_string)
 
-                path = paths_pathlib.pop(0)
-                if not path:
-                    raise ValueError("Too few paths given!")
-                
-                print(data["video/mp4"])
-                # video_bytes = data["video/mp4"]
-                # if isinstance(video_bytes, str):
-                #     video_bytes = b64decode(video_bytes)
-                # assert isinstance(video_bytes, bytes)
-                # dest = Path(path)
-                # dest.write_bytes(video_bytes)
+                if match:
+                    video_dir = match.group(1)
+                    dest = Path(path)
+                    src = Path(video_dir)
+                    dest.write_bytes(src.read_bytes())
 
-                # import re
+                # Extract base64-encoded embedded video data 
+                pattern = re.compile(r'data:video/mp4;base64,(.*)">')
+                match = pattern.search(video_object_html_string)
 
+                if match:
+                    base64_string = match.group(1)
 
-                # pattern = re.compile('data:video/mp4;base64,(.*)">')
-                # result = re.search(pattern, video_tag)
+                    # Decode base64 string and save video file using pathlib
+                    video_bytes = b64decode(base64_string)
+                    assert isinstance(video_bytes, bytes)
+                    dest = Path(path)
+                    dest.write_bytes(video_bytes)
 
-                # if result:
-                #     base64_string = result.group(1)
-                # else:
-                #     print("No match found")
-
-                # import base64
-
-                # video_data = base64.b64decode(base64_string)
-
-                # with open('output.mp4', 'wb') as f:
-                #     f.write(video_data)
-
-                # print("Video saved as output.mp4")
