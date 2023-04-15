@@ -3,6 +3,8 @@ A cell magic that captures jupyter cell output
 
 
 [![JupyterLight](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://octoframes.github.io/jupyter_capture_output/)  
+[![PyPI version](https://badge.fury.io/py/jupyter-capture-output.svg)](https://badge.fury.io/py/jupyter-capture-output)
+
 
 ## Install
 Requires Python >=3.8
